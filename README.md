@@ -1,12 +1,11 @@
 # Nebulactyl
+![Animated Banner](https://raw.githubusercontent.com/Crinix-Labs/neoactyl/refs/heads/main/20250310_185008_0002.gif)
 
 > A nebula-themed, monetized client area for the Pterodactyl Panel.
-> Made by [Void Development](https://zenpaizombie.qzz.io) (@cvr8728). Originally forked from Heliactyl.
+> Made by [Nebulactyl Development](https://nebulactyl.qd.je) (@cvr8728).
 
-Nebulactyl lets your users create, edit and delete servers, and earn coins (via AFK, an ad banner, and Linkvertise/Linkpays/watch-ad tasks) which can be spent upgrading their servers in the store.
+**Nebulactyl** lets your users create, edit and delete servers, and earn coins (via AFK, an ad banner, and Linkvertise/Linkpays/watch-ad tasks) which can be spent upgrading their servers in the store.
 
-> [!WARNING]
-> Nebulactyl is not compatible with `settings.json` files from Heliactyl v13 or earlier. You can keep the same `database.sqlite` though without having any issues.
 
 ## What's new in Nebulactyl
 
