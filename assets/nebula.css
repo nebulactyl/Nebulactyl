@@ -1,0 +1,758 @@
+/* ==========================================================================
+   Nebulactyl — "Nebula" theme
+   --------------------------------------------------------------------------
+   This stylesheet is loaded AFTER tailwind.css on every page. tailwind.css
+   is a purged/JIT build (it only contains classes that existed in the .ejs
+   templates at build time), so instead of inventing brand-new utility
+   classes that wouldn't exist in that build, this file re-skins the app by
+   overriding the exact Tailwind utility classes already used throughout the
+   views (bg-gray-*, text-gray-*, border-gray-*, bg-white, etc). Same
+   selector specificity + later source order = these rules win the cascade
+   without touching hundreds of template class lists.
+   ========================================================================== */
+
+:root {
+  --n-bg: #06060f;
+  --n-bg-alt: #0a0a1a;
+  --n-surface-1: rgba(148, 116, 255, 0.07);
+  --n-surface-2: rgba(148, 116, 255, 0.12);
+  --n-surface-3: rgba(148, 116, 255, 0.18);
+  --n-glass-bg: rgba(255, 255, 255, 0.035);
+  --n-glass-bg-strong: rgba(255, 255, 255, 0.055);
+  --n-glass-border: rgba(168, 130, 255, 0.16);
+  --n-border: rgba(168, 130, 255, 0.14);
+  --n-border-soft: rgba(168, 130, 255, 0.09);
+
+  --n-text-primary: #f3f1ff;
+  --n-text-strong: #ffffff;
+  --n-text-secondary: #beb8e0;
+  --n-text-muted: #8d87ac;
+  --n-text-faint: #6b6588;
+
+  --n-primary: #a855f7;
+  --n-primary-2: #8b5cf6;
+  --n-primary-glow: #c084fc;
+  --n-accent-cyan: #22d3ee;
+  --n-accent-pink: #f472b6;
+  --n-gold: #fbbf24;
+  --n-gold-2: #facc15;
+  --n-success: #34d399;
+  --n-danger: #f87171;
+
+  --n-gradient-brand: linear-gradient(135deg, #7c3aed 0%, #a855f7 55%, #d946ef 100%);
+  --n-gradient-brand-hover: linear-gradient(135deg, #8b5cf6 0%, #c026d3 55%, #ec4899 100%);
+  --n-gradient-text: linear-gradient(135deg, #c084fc 0%, #a855f7 40%, #22d3ee 100%);
+
+  --n-shadow-glow: 0 8px 32px rgba(124, 58, 237, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  --n-shadow-card: 0 4px 24px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  --n-radius: 1.5rem;
+}
+
+/* -------------------------------------------------------------------------
+   Base / scrollbars / selection
+   ------------------------------------------------------------------------- */
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(168, 130, 255, 0.35) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, rgba(168, 85, 247, 0.55), rgba(217, 70, 239, 0.4));
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::selection {
+  background: rgba(168, 85, 247, 0.45);
+  color: #fff;
+}
+
+body {
+  color: var(--n-text-primary);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* -------------------------------------------------------------------------
+   Nebula background canvas + drifting blobs
+   ------------------------------------------------------------------------- */
+
+#nebula-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.nebula-blobs {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.nebula-blobs span {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(70px);
+  opacity: 0.55;
+  animation: nebula-drift 26s ease-in-out infinite;
+}
+
+.nebula-blobs span:nth-child(1) {
+  width: 38vw;
+  height: 38vw;
+  top: -12%;
+  left: -8%;
+  background: radial-gradient(circle at 30% 30%, rgba(168, 85, 247, 0.55), transparent 70%);
+  animation-delay: 0s;
+}
+
+.nebula-blobs span:nth-child(2) {
+  width: 32vw;
+  height: 32vw;
+  top: 10%;
+  right: -10%;
+  background: radial-gradient(circle at 60% 40%, rgba(34, 211, 238, 0.4), transparent 70%);
+  animation-delay: -8s;
+}
+
+.nebula-blobs span:nth-child(3) {
+  width: 40vw;
+  height: 40vw;
+  bottom: -18%;
+  left: 20%;
+  background: radial-gradient(circle at 50% 50%, rgba(244, 114, 182, 0.32), transparent 70%);
+  animation-delay: -16s;
+}
+
+@keyframes nebula-drift {
+
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(3%, 4%) scale(1.06);
+  }
+
+  66% {
+    transform: translate(-3%, -2%) scale(0.96);
+  }
+}
+
+/* All page content sits above the background layers */
+body>div:not(.nebula-blobs),
+main,
+#nebula-canvas+* {
+  position: relative;
+  z-index: 1;
+}
+
+/* -------------------------------------------------------------------------
+   Body background override (targets body.bg-gray-100 specifically so the
+   small bg-gray-100 chips elsewhere don't inherit the full page gradient)
+   ------------------------------------------------------------------------- */
+
+body.bg-gray-100 {
+  background-color: var(--n-bg);
+  background-image:
+    radial-gradient(ellipse 70% 45% at 15% -8%, rgba(168, 85, 247, 0.30), transparent 60%),
+    radial-gradient(ellipse 55% 45% at 92% 8%, rgba(34, 211, 238, 0.20), transparent 60%),
+    radial-gradient(ellipse 65% 55% at 50% 115%, rgba(244, 114, 182, 0.16), transparent 60%);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* -------------------------------------------------------------------------
+   Gray-scale utility remap (surfaces / text / borders)
+   ------------------------------------------------------------------------- */
+
+.bg-gray-50 {
+  background-color: var(--n-surface-1) !important;
+}
+
+.bg-gray-100 {
+  background-color: transparent;
+}
+
+.bg-gray-200 {
+  background-color: var(--n-surface-2) !important;
+}
+
+.bg-gray-300 {
+  background-color: var(--n-surface-3) !important;
+}
+
+.hover\:bg-gray-200:hover {
+  background-color: var(--n-surface-2) !important;
+}
+
+.hover\:bg-gray-300:hover {
+  background-color: var(--n-surface-3) !important;
+}
+
+.bg-white {
+  background-color: var(--n-glass-bg) !important;
+  border: 1px solid var(--n-glass-border);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: var(--n-shadow-card);
+}
+
+.hover\:bg-gray-50:hover {
+  background-color: var(--n-glass-bg-strong) !important;
+}
+
+.text-gray-900 {
+  color: var(--n-text-strong) !important;
+}
+
+.text-gray-800 {
+  color: var(--n-text-strong) !important;
+}
+
+.text-gray-700 {
+  color: var(--n-text-primary) !important;
+}
+
+.text-gray-600 {
+  color: var(--n-text-secondary) !important;
+}
+
+.hover\:text-gray-700:hover,
+.hover\:text-gray-800:hover,
+.hover\:text-gray-900:hover {
+  color: var(--n-text-strong) !important;
+}
+
+.text-gray-500 {
+  color: var(--n-text-muted) !important;
+}
+
+.text-gray-400 {
+  color: var(--n-text-faint) !important;
+}
+
+.group-hover\:text-gray-500:hover {
+  color: var(--n-text-secondary) !important;
+}
+
+.border-gray-200,
+.border-gray-300,
+.border-gray-400,
+.border-gray-500 {
+  border-color: var(--n-border) !important;
+}
+
+.divide-gray-100>* {
+  border-color: var(--n-border-soft) !important;
+}
+
+.ring-gray-500,
+.ring-gray-600,
+.ring-gray-200 {
+  --tw-ring-color: rgba(168, 85, 247, 0.45) !important;
+}
+
+.focus\:ring-gray-600:focus {
+  --tw-ring-color: rgba(168, 85, 247, 0.5) !important;
+}
+
+.focus\:border-gray-400:focus,
+.focus\:border-gray-500:focus {
+  border-color: rgba(168, 85, 247, 0.6) !important;
+}
+
+.outline-gray-600,
+.focus-visible\:outline-gray-600:focus-visible {
+  outline-color: rgba(168, 85, 247, 0.6) !important;
+}
+
+.placeholder\:text-gray-400::placeholder {
+  color: var(--n-text-faint) !important;
+}
+
+/* Amber (coins) + emerald (success) stay on-brand but brighten for dark bg */
+.text-amber-400,
+.text-amber-500,
+.text-amber-600 {
+  color: var(--n-gold) !important;
+}
+
+.text-amber-900 {
+  color: #4a2b06 !important;
+}
+
+.text-emerald-400 {
+  color: var(--n-success) !important;
+}
+
+/* -------------------------------------------------------------------------
+   Sidebar / navigation
+   ------------------------------------------------------------------------- */
+
+.md\:flex.md\:w-64 .bg-gray-100,
+.md\:flex.md\:w-64>div.bg-gray-100 {
+  background-color: rgba(8, 6, 20, 0.7) !important;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-color: var(--n-border) !important;
+}
+
+.nav-link {
+  border: 1px solid transparent;
+}
+
+.nav-link.bg-gray-200 {
+  background: linear-gradient(90deg, rgba(168, 85, 247, 0.22), rgba(168, 85, 247, 0.05)) !important;
+  border-color: rgba(168, 85, 247, 0.35);
+  box-shadow: inset 2px 0 0 var(--n-primary-glow);
+  color: #fff !important;
+}
+
+.nav-link:hover {
+  border-color: var(--n-border);
+}
+
+/* -------------------------------------------------------------------------
+   Buttons — every CTA in the app shares this exact class combo, so we can
+   target it precisely with a higher-specificity compound selector.
+   ------------------------------------------------------------------------- */
+
+a.inline-flex.rounded-2xl.bg-gray-200,
+button.inline-flex.rounded-2xl.bg-gray-200,
+a.inline-flex.rounded-2xl.bg-gray-100 {
+  background: var(--n-gradient-brand) !important;
+  color: #fff !important;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: var(--n-shadow-glow);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+a.inline-flex.rounded-2xl.bg-gray-200:hover,
+button.inline-flex.rounded-2xl.bg-gray-200:hover,
+a.inline-flex.rounded-2xl.bg-gray-100:hover {
+  background: var(--n-gradient-brand-hover) !important;
+  box-shadow: 0 10px 32px rgba(168, 85, 247, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-1px);
+}
+
+a.inline-flex.rounded-2xl.bg-gray-200:active,
+button.inline-flex.rounded-2xl.bg-gray-200:active {
+  transform: translateY(0px) scale(0.98);
+}
+
+/* Secondary / ghost pill buttons (sign out, etc — bg-gray-200 rounded-full) */
+.rounded-full.bg-gray-200 {
+  background-color: var(--n-surface-2) !important;
+  border: 1px solid var(--n-border-soft);
+}
+
+.rounded-full.bg-gray-200:hover {
+  background-color: var(--n-surface-3) !important;
+}
+
+/* -------------------------------------------------------------------------
+   Newly-meaningful semantic classes (previously unstyled by Tailwind, so
+   giving them real styles here is purely additive and cannot break layout)
+   ------------------------------------------------------------------------- */
+
+.card {
+  background: var(--n-glass-bg);
+  border: 1px solid var(--n-glass-border);
+  border-radius: var(--n-radius);
+  padding: 1.75rem 2rem 2rem;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: var(--n-shadow-card);
+}
+
+.form-control {
+  background-color: rgba(255, 255, 255, 0.03) !important;
+  color: var(--n-text-primary) !important;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.form-control:focus {
+  background-color: rgba(255, 255, 255, 0.06) !important;
+  box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.22);
+  outline: none;
+}
+
+/* -------------------------------------------------------------------------
+   Icon badges (the small rounded-2xl h-11 w-11 squares used as page icons)
+   ------------------------------------------------------------------------- */
+
+.rounded-2xl.h-11.w-11 {
+  background: var(--n-gradient-brand) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 18px rgba(168, 85, 247, 0.4);
+}
+
+/* -------------------------------------------------------------------------
+   Testing banner — keep it warm/amber but adapt to dark theme
+   ------------------------------------------------------------------------- */
+
+.bg-amber-500 {
+  background: linear-gradient(90deg, #f59e0b, #fbbf24) !important;
+}
+
+/* -------------------------------------------------------------------------
+   Skeleton loader shimmer
+   ------------------------------------------------------------------------- */
+
+#skeleton-loader .bg-gray-300,
+#skeleton-loader .bg-gray-200 {
+  background: linear-gradient(90deg, rgba(168, 85, 247, 0.12) 25%, rgba(168, 85, 247, 0.28) 37%, rgba(168, 85, 247, 0.12) 63%) !important;
+  background-size: 400% 100% !important;
+  animation: n-shimmer 1.6s ease-in-out infinite;
+}
+
+@keyframes n-shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Content entrance animation
+   ------------------------------------------------------------------------- */
+
+#content {
+  animation: n-fade-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes n-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* -------------------------------------------------------------------------
+   Brand wordmark (sidebar title / login title use settings.name directly)
+   ------------------------------------------------------------------------- */
+
+.n-brand {
+  background: var(--n-gradient-text);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  letter-spacing: 0.01em;
+}
+
+/* -------------------------------------------------------------------------
+   Coin pill glow (sidebar balance + dashboard balance)
+   ------------------------------------------------------------------------- */
+
+.n-coin {
+  filter: drop-shadow(0 0 6px rgba(251, 191, 36, 0.55));
+}
+
+/* ==========================================================================
+   New feature components: Earn Tasks page + Ad banner (AFK page)
+   ========================================================================== */
+
+.n-task-card {
+  position: relative;
+  border-radius: var(--n-radius);
+  padding: 1.75rem;
+  background: var(--n-glass-bg);
+  border: 1px solid var(--n-glass-border);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: var(--n-shadow-card);
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.n-task-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: var(--n-gradient-brand);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+
+.n-task-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 40px rgba(124, 58, 237, 0.28);
+}
+
+.n-task-card:hover::before {
+  opacity: 1;
+}
+
+.n-task-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--n-gradient-brand);
+  box-shadow: 0 4px 18px rgba(168, 85, 247, 0.4);
+  color: #fff;
+}
+
+.n-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  background: var(--n-surface-2);
+  border: 1px solid var(--n-border);
+  color: var(--n-text-secondary);
+}
+
+.n-badge.n-badge-gold {
+  background: rgba(251, 191, 36, 0.14);
+  border-color: rgba(251, 191, 36, 0.35);
+  color: var(--n-gold);
+}
+
+.n-badge.n-badge-locked {
+  background: rgba(248, 113, 113, 0.1);
+  border-color: rgba(248, 113, 113, 0.3);
+  color: var(--n-danger);
+}
+
+.n-progress-track {
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  overflow: hidden;
+}
+
+.n-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--n-gradient-brand);
+  transition: width 0.4s ease;
+}
+
+.n-task-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0.65rem 1rem;
+  border-radius: 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  background: var(--n-gradient-brand);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: var(--n-shadow-glow);
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, opacity 0.15s ease;
+}
+
+.n-task-btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 30px rgba(168, 85, 247, 0.45);
+}
+
+.n-task-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+  background: var(--n-surface-2);
+}
+
+/* Ad banner slot — AFK page only */
+.n-ad-slot {
+  width: 100%;
+  min-height: 100px;
+  border-radius: 1.25rem;
+  border: 1px dashed var(--n-border);
+  background: rgba(255, 255, 255, 0.02);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.n-ad-slot .n-ad-placeholder {
+  text-align: center;
+  color: var(--n-text-faint);
+  font-size: 0.75rem;
+  padding: 1rem;
+}
+
+.n-ad-label {
+  position: absolute;
+  top: 6px;
+  left: 10px;
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--n-text-faint);
+}
+
+/* AFK ring / pulse */
+.n-afk-ring {
+  width: 9rem;
+  height: 9rem;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(168, 85, 247, 0.18), transparent 70%);
+  position: relative;
+}
+
+.n-afk-ring::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 2px solid rgba(168, 85, 247, 0.35);
+  animation: n-pulse-ring 2.4s ease-out infinite;
+}
+
+@keyframes n-pulse-ring {
+  0% {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+/* Sound toggle */
+.n-sound-toggle {
+  position: fixed;
+  bottom: 18px;
+  right: 18px;
+  z-index: 40;
+  width: 42px;
+  height: 42px;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--n-glass-bg);
+  border: 1px solid var(--n-glass-border);
+  backdrop-filter: blur(14px);
+  color: var(--n-text-secondary);
+  cursor: pointer;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.n-sound-toggle:hover {
+  transform: scale(1.08);
+  color: #fff;
+}
+
+/* Toast notifications (used by nebula.js) */
+.n-toast-wrap {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 60;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.n-toast {
+  pointer-events: auto;
+  min-width: 240px;
+  max-width: 320px;
+  padding: 0.85rem 1rem;
+  border-radius: 1rem;
+  background: rgba(15, 12, 30, 0.92);
+  border: 1px solid var(--n-glass-border);
+  backdrop-filter: blur(16px);
+  box-shadow: var(--n-shadow-card);
+  color: var(--n-text-primary);
+  font-size: 0.82rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  animation: n-toast-in 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.n-toast.n-toast-out {
+  animation: n-toast-out 0.25s ease forwards;
+}
+
+@keyframes n-toast-in {
+  from {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes n-toast-out {
+  to {
+    opacity: 0;
+    transform: translateX(24px);
+  }
+}

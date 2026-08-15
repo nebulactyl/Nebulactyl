@@ -1,0 +1,242 @@
+<%- include('../components/head') %>
+
+<body class="bg-gray-100" style="font-family: 'Inter', sans-serif;">
+<%- include('../components/nebula-bg') %>
+  <%- include('../components/navigation') %>
+  <div class="md:pl-48 flex flex-col flex-1 h-screen">
+    <main class="flex-1 pb-32">
+      <div class="py-6">
+        <% /* Skeleton loader, lasts about 0.3s to let the page content load */ %>
+        <%- include('../components/skeleton') %>
+        <div class="hidden max-w-7xl pt-8 mx-auto px-4 sm:px-6 md:px-8" id="content">
+          <div class="lg:flex lg:items-center lg:justify-between rounded-3xl mb-8">
+            <div class="min-w-0 flex-1">
+              <div class="flex">
+                <div class="relative">
+                  <div class="bg-gray-200 rounded-2xl h-11 w-11 text-center flex text-gray-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 mt-3 ml-3">
+                      <path fill-rule="evenodd" d="M9 4.5a.75.75 0 0 1 .721.544l.813 2.846a3.75 3.75 0 0 0 2.576 2.576l2.846.813a.75.75 0 0 1 0 1.442l-2.846.813a3.75 3.75 0 0 0-2.576 2.576l-.813 2.846a.75.75 0 0 1-1.442 0l-.813-2.846a3.75 3.75 0 0 0-2.576-2.576l-2.846-.813a.75.75 0 0 1 0-1.442l2.846-.813A3.75 3.75 0 0 0 7.5 7.89l.813-2.846A.75.75 0 0 1 9 4.5ZM18 1.5a.75.75 0 0 1 .728.568l.258 1.036c.236.94.97 1.674 1.91 1.91l1.036.258a.75.75 0 0 1 0 1.456l-1.036.258c-.94.236-1.674.97-1.91 1.91l-.258 1.036a.75.75 0 0 1-1.456 0l-.258-1.036a2.625 2.625 0 0 0-1.91-1.91l-1.036-.258a.75.75 0 0 1 0-1.456l1.036-.258a2.625 2.625 0 0 0 1.91-1.91l.258-1.036A.75.75 0 0 1 18 1.5Z" clip-rule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+                <div class="relative ml-4">
+                  <h2 class="text-xl font-semibold text-gray-700 sm:truncate tracking-tight">Earn Coins</h2>
+                  <p class="text-xs font-thin text-gray-500">Complete tasks below to top up your balance. Each task has a daily limit.</p>
+                </div>
+              </div>
+            </div>
+            <div class="mt-5 flex lg:ml-4 lg:mt-0">
+              <span class="transition inline-flex items-center rounded-2xl bg-gray-200 px-8 py-2 text-sm font-medium text-gray-600">
+                Balance: <span class="ml-1 font-semibold n-coin text-amber-500" id="n-balance"><%= coins != null ? coins : 0 %></span>&nbsp;coins
+              </span>
+            </div>
+          </div>
+
+          <% if (!(settings.api.client.earn && settings.api.client.earn.enabled && settings.api.client.earn.enabled !== "false")) { %>
+          <div class="rounded-3xl bg-gray-200 p-8 text-center text-gray-600 text-sm">
+            Earn tasks are currently disabled by the administrator.
+          </div>
+          <% } else { %>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6" id="n-task-grid">
+
+            <!-- Linkvertise -->
+            <div class="n-task-card" data-provider="linkvertise">
+              <div class="flex items-center justify-between mb-4">
+                <div class="n-task-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5 21 3m0 0h-5.25M21 3v5.25M3 21l7.5-7.5M3 21v-5.25M3 21h5.25" />
+                  </svg>
+                </div>
+                <span class="n-badge n-badge-gold" data-role="reward">+0 coins</span>
+              </div>
+              <h3 class="text-gray-900 font-semibold text-sm mb-1">Linkvertise</h3>
+              <p class="text-gray-500 text-xs mb-4">Complete a short Linkvertise link to earn coins instantly.</p>
+              <div class="n-progress-track mb-2"><div class="n-progress-fill" data-role="progress" style="width:0%"></div></div>
+              <p class="text-gray-400 text-[11px] mb-4" data-role="usage">0 / 0 used today</p>
+              <a href="../earn/start?provider=linkvertise" class="n-task-btn" data-role="btn">Start Task</a>
+            </div>
+
+            <!-- Linkpays -->
+            <div class="n-task-card" data-provider="linkpays">
+              <div class="flex items-center justify-between mb-4">
+                <div class="n-task-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h3m-3.75 3h15a2.25 2.25 0 0 0 2.25-2.25V6.75A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25v10.5A2.25 2.25 0 0 0 4.5 19.5Z" />
+                  </svg>
+                </div>
+                <span class="n-badge n-badge-gold" data-role="reward">+0 coins</span>
+              </div>
+              <h3 class="text-gray-900 font-semibold text-sm mb-1">Linkpays</h3>
+              <p class="text-gray-500 text-xs mb-4">Complete a Linkpays task to earn coins instantly.</p>
+              <div class="n-progress-track mb-2"><div class="n-progress-fill" data-role="progress" style="width:0%"></div></div>
+              <p class="text-gray-400 text-[11px] mb-4" data-role="usage">0 / 0 used today</p>
+              <a href="../earn/start?provider=linkpays" class="n-task-btn" data-role="btn">Start Task</a>
+            </div>
+
+            <!-- Watch Ad -->
+            <div class="n-task-card" data-provider="adswatch">
+              <div class="flex items-center justify-between mb-4">
+                <div class="n-task-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 5.25h19.5v13.5H2.25zM2.25 8.25h19.5M8.25 5.25v13.5" />
+                  </svg>
+                </div>
+                <span class="n-badge n-badge-gold" data-role="reward">+0 coins</span>
+              </div>
+              <h3 class="text-gray-900 font-semibold text-sm mb-1">Watch Ad</h3>
+              <p class="text-gray-500 text-xs mb-4">Watch a short ad in-page to earn coins. No redirects, no popups.</p>
+              <div class="n-progress-track mb-2"><div class="n-progress-fill" data-role="progress" style="width:0%"></div></div>
+              <p class="text-gray-400 text-[11px] mb-4" data-role="usage">0 / 0 used today</p>
+              <button type="button" class="n-task-btn" data-role="btn" id="n-watchad-btn">Watch Ad</button>
+            </div>
+
+          </div>
+
+          <!-- Watch-ad in-page panel (hidden until a task is started) -->
+          <div class="card mt-6 hidden" id="n-watchad-panel">
+            <div class="flex items-center justify-between mb-4">
+              <h3 class="text-gray-900 font-semibold text-sm">Watching ad&hellip;</h3>
+              <span class="n-badge" id="n-watchad-countdown">--</span>
+            </div>
+            <div class="n-ad-slot mb-4">
+              <span class="n-ad-label">Advertisement</span>
+              <% if (settings.ads && settings.ads.banner && settings.ads.banner.enabled && settings.ads.banner.enabled !== "false") { %>
+              <%- settings.ads.banner.code %>
+              <% } else { %>
+              <div class="n-ad-placeholder">Ad space &mdash; configure a banner in Admin Settings</div>
+              <% } %>
+            </div>
+            <div class="n-progress-track mb-4"><div class="n-progress-fill" id="n-watchad-progress" style="width:0%"></div></div>
+            <button type="button" class="n-task-btn" id="n-watchad-claim" disabled>Keep this tab open&hellip;</button>
+          </div>
+
+          <% } %>
+        </div>
+      </div>
+    </main>
+    <%- include('../components/footer') %>
+  </div>
+  </div>
+</body>
+
+<script>
+  (function () {
+    var STATUS_URL = "../earn/status";
+    var params = new URLSearchParams(window.location.search);
+
+    function showFeedback() {
+      if (!window.NebulaFX) return;
+      var claimed = params.get("claimed");
+      var err = params.get("err");
+      if (claimed) {
+        NebulaFX.toast("You earned " + claimed + " coins!", "coin");
+        NebulaFX.confetti();
+      } else if (err) {
+        var messages = {
+          DISABLED: "That task is currently disabled.",
+          LIMITREACHED: "You've hit today's limit for this task. Come back tomorrow.",
+          TOOFAST: "That was too quick — please complete the full task.",
+          TASKFAILED: "We couldn't verify that task. Please try again."
+        };
+        NebulaFX.toast(messages[err] || "Something went wrong with that task.", "error");
+      }
+      if (claimed || err) {
+        var cleanUrl = window.location.pathname;
+        window.history.replaceState({}, document.title, cleanUrl);
+      }
+    }
+
+    function renderStatus(data) {
+      if (data.balance != null) {
+        var balEl = document.getElementById("n-balance");
+        if (balEl) balEl.textContent = data.balance;
+      }
+      Object.keys(data.tasks || {}).forEach(function (provider) {
+        var card = document.querySelector('.n-task-card[data-provider="' + provider + '"]');
+        if (!card) return;
+        var t = data.tasks[provider];
+        var rewardEl = card.querySelector('[data-role="reward"]');
+        var progressEl = card.querySelector('[data-role="progress"]');
+        var usageEl = card.querySelector('[data-role="usage"]');
+        var btnEl = card.querySelector('[data-role="btn"]');
+
+        if (rewardEl) rewardEl.textContent = "+" + (t.coins || 0) + " coins";
+        var pct = t.dailyLimit ? Math.min(100, Math.round((t.used / t.dailyLimit) * 100)) : 0;
+        if (progressEl) progressEl.style.width = pct + "%";
+        if (usageEl) usageEl.textContent = t.used + " / " + t.dailyLimit + " used today";
+
+        var limitReached = t.dailyLimit && t.used >= t.dailyLimit;
+        if (!t.enabled) {
+          if (btnEl) { btnEl.setAttribute("disabled", "disabled"); btnEl.textContent = "Unavailable"; btnEl.classList.add("pointer-events-none"); }
+        } else if (limitReached) {
+          if (btnEl) { btnEl.setAttribute("disabled", "disabled"); btnEl.textContent = "Come back tomorrow"; btnEl.classList.add("pointer-events-none"); }
+        }
+      });
+    }
+
+    function loadStatus() {
+      fetch(STATUS_URL, { credentials: "same-origin" })
+        .then(function (r) { return r.json(); })
+        .then(renderStatus)
+        .catch(function () {});
+    }
+
+    function initWatchAd() {
+      var startBtn = document.getElementById("n-watchad-btn");
+      var panel = document.getElementById("n-watchad-panel");
+      var countdownEl = document.getElementById("n-watchad-countdown");
+      var progressEl = document.getElementById("n-watchad-progress");
+      var claimBtn = document.getElementById("n-watchad-claim");
+      var adToken = params.get("adtoken");
+
+      function beginCountdown(token, seconds) {
+        panel.classList.remove("hidden");
+        panel.scrollIntoView({ behavior: "smooth", block: "center" });
+        var total = seconds || 20;
+        var remaining = total;
+        countdownEl.textContent = remaining + "s";
+        progressEl.style.width = "0%";
+        claimBtn.setAttribute("disabled", "disabled");
+        claimBtn.textContent = "Keep this tab open\u2026";
+
+        var interval = setInterval(function () {
+          remaining--;
+          countdownEl.textContent = Math.max(remaining, 0) + "s";
+          progressEl.style.width = Math.min(100, Math.round(((total - remaining) / total) * 100)) + "%";
+          if (remaining <= 0) {
+            clearInterval(interval);
+            countdownEl.textContent = "Ready";
+            claimBtn.removeAttribute("disabled");
+            claimBtn.textContent = "Claim Reward";
+            claimBtn.onclick = function () {
+              window.location.href = "../earn/watchad/claim?token=" + encodeURIComponent(token);
+            };
+          }
+        }, 1000);
+      }
+
+      if (startBtn) {
+        startBtn.addEventListener("click", function () {
+          window.location.href = "../earn/start?provider=adswatch";
+        });
+      }
+
+      if (adToken) {
+        fetch(STATUS_URL, { credentials: "same-origin" })
+          .then(function (r) { return r.json(); })
+          .then(function (data) {
+            var seconds = (data.tasks && data.tasks.adswatch && data.tasks.adswatch.watchSeconds) || 20;
+            beginCountdown(adToken, seconds);
+          })
+          .catch(function () { beginCountdown(adToken, 20); });
+      }
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
+      loadStatus();
+      initWatchAd();
+      showFeedback();
+    });
+  })();
+</script>
