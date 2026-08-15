@@ -22,7 +22,8 @@ Nebulactyl lets your users create, edit and delete servers, and earn coins (via 
 
 ## Get started
 
-1. Clone or download this repository onto your machine.
+1. Clone the Github Repository
+```git clone https://github.com/nebulactyl/Nebulactyl.git```
 2. Enter the directory and configure `settings.json` — the Pterodactyl and OAuth2 settings **must** be configured; everything else (coins, earn tasks, ad banner, logging) is optional.
 3. Run `npm install` to install dependencies.
 4. Check everything over and make sure Nebulactyl is configured correctly.
