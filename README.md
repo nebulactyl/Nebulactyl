@@ -1,7 +1,7 @@
 # Nebulactyl
 ![Banner](https://raw.githubusercontent.com/nebulactyl/Nebulactyl/refs/heads/main/assets/profileBanner.png)
 
-[![Discord](https://img.shields.io/discord/1538101935016644719?label=Discord&logo=discord)](https://discord.gg/TPebfznkZe)
+[![Discord](https://img.shields.io/discord/1538101935016644719?label=Discord&logo=discord)](https://discord.gg/W8a5dQGTvx)
 ![ShellCheck](https://img.shields.io/badge/ShellCheck-passing-brightgreen?logo=github)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 ![Made with Node.js](https://img.shields.io/badge/Made%20with-Node.js-339933?logo=node.js&logoColor=white)
