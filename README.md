@@ -1,7 +1,10 @@
 # Nebulactyl
 ![Banner](https://raw.githubusercontent.com/nebulactyl/Nebulactyl/refs/heads/main/assets/profileBanner.png)
 
-[![Discord](https://img.shields.io/discord/682342331206074373?label=&logo=discord&logoColor=ffffff&color=7389D8&labelColor=6A7EC2)](https://discord.gg/W8a5dQGTvx)
+[![Discord](https://img.shields.io/discord/1538101935016644719?label=Discord&logo=discord)](https://discord.gg/TPebfznkZe)
+![ShellCheck](https://img.shields.io/badge/ShellCheck-passing-brightgreen?logo=github)
+![Made with Node.js](https://img.shields.io/badge/Made%20with-Node.js-339933?logo=node.js&logoColor=white)
+
 
 > A nebula-themed, monetized client area for the [**Pterodactyl Panel**](https://pterodactyl.io).
 > Made by [**Nebulactyl Development**](https://nebulactyl.qd.je).
