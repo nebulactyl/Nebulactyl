@@ -1,5 +1,5 @@
 # Nebulactyl
-![Banner]([https://raw.githubusercontent.com/Crinix-Labs/neoactyl/refs/heads/main/20250310_185008_0002.gif](https://raw.githubusercontent.com/nebulactyl/Nebulactyl/refs/heads/main/assets/profileBanner.png))
+![Banner](https://raw.githubusercontent.com/nebulactyl/Nebulactyl/refs/heads/main/assets/profileBanner.png)
 
 > A nebula-themed, monetized client area for the Pterodactyl Panel.
 > Made by [Nebulactyl Development](https://nebulactyl.qd.je) (@cvr8728).
