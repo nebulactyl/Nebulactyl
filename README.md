@@ -24,11 +24,13 @@
 ## Get started
 
 1. Clone the Github Repository
-```git clone https://github.com/nebulactyl/Nebulactyl.git```
-2. Enter the directory and configure `settings.json` — the Pterodactyl and OAuth2 settings **must** be configured; everything else (coins, earn tasks, ad banner, logging) is optional.
-3. Run `npm install` to install dependencies.
-4. Check everything over and make sure Nebulactyl is configured correctly.
-5. Create SSL certificates for your target domain and set up an NGINX reverse proxy (see below).
+```bash
+git clone https://github.com/nebulactyl/Nebulactyl.git
+```
+3. Enter the directory and configure `settings.json` — the Pterodactyl and OAuth2 settings **must** be configured; everything else (coins, earn tasks, ad banner, logging) is optional.
+4. Run `npm install` to install dependencies.
+5. Check everything over and make sure Nebulactyl is configured correctly.
+6. Create SSL certificates for your target domain and set up an NGINX reverse proxy (see below).
 
 ### Configuring monetization
 
