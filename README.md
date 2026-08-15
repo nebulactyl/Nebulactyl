@@ -1,8 +1,8 @@
 # Nebulactyl
 ![Banner](https://raw.githubusercontent.com/nebulactyl/Nebulactyl/refs/heads/main/assets/profileBanner.png)
 
-> A nebula-themed, monetized client area for the Pterodactyl Panel.
-> Made by [Nebulactyl Development](https://nebulactyl.qd.je) (@cvr8728).
+> A nebula-themed, monetized client area for the [**Pterodactyl Panel**](https://pterodactyl.io).
+> Made by [**Nebulactyl Development**](https://nebulactyl.qd.je).
 
 **Nebulactyl** lets your users create, edit and delete servers, and earn coins (via AFK, an ad banner, and Linkvertise/Linkpays/watch-ad tasks) which can be spent upgrading their servers in the store.
 
