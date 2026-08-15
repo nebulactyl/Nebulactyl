@@ -1,9 +1,9 @@
 {
   "name": "Nebulactyl",
   "credits": {
-    "developer": "Void Development",
+    "developer": "Nebulactyl Development",
     "handle": "@cvr8728",
-    "url": "https://zenpaizombie.qzz.io"
+    "url": "https://github.com/nebulactyl/Nebulactyl"
   },
   "pterodactyl": {
     "domain": "https://panel.example.com",
